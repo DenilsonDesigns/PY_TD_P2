@@ -1,7 +1,18 @@
 import constants
 
-# for player in constants.PLAYERS:
-#     print("Player name:", player['name'])
+# print("Player name:", player['name'])
+# clean the data
+player_list = []
+for player in constants.PLAYERS:
+    height = int(player['height'][0:2])
+    player_list.append({'name': player['name'], 'guardians': player['guardians'], 'experience': player['experience'],
+                        'height': height})
+
+print(player_list)
+
+
+def make_teams(player_pool):
+    pass
 
 
 def show_menu():
