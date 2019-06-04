@@ -1,14 +1,5 @@
 import constants
 
-# clean the data
-player_list = []
-for player in constants.PLAYERS:
-    height = int(player['height'][0:2])
-    guardians = player['guardians'].split(" and ")
-    experience = True if player['experience'] == 'YES' else False
-    player_list.append({'name': player['name'], 'guardians': guardians, 'experience': experience,
-                        'height': height})
-
 
 def make_teams(player_pool):
     # Count the number of experienced players
@@ -52,7 +43,20 @@ def get_more_stats(team_list):
     av_height = 0
     guardian_list = ""
 
-    pass
+    for stat_player in team_list:
+        if stat_player['experience']:
+            vet_total += 1
+        else:
+            rookie_total += 1
+        av_height += stat_player['height']
+        for guardian in stat_player['guardians']:
+            guardian_list += guardian + ", "
+    print("Advanced Stats")
+    print('- ' * 10)
+    print("Number of vets on team: {}".format(vet_total))
+    print("Number of rooks on team: {}".format(rookie_total))
+    print("Average height of team: {}".format(int(av_height / len(team_list))))
+    print("List of guardians for the team: {}".format(guardian_list))
 
 
 def show_menu():
@@ -89,12 +93,21 @@ def print_team(team_number):
     for player_here in teams_array[team_number - 1]:
         player_string += player_here['name'] + ", "
     print("Team: {} Stats\n".format(team_list[team_number - 1]))
-    print("-"*20)
+    print("-" * 20)
     print("Total players: {}".format(len(teams_array[team_number - 1])))
     print("Player list:")
     print(player_string)
     print("-" * 20)
+    get_more_stats(teams_array[team_number - 1])
 
 
 if __name__ == '__main__':
+    # clean the data
+    player_list = []
+    for player in constants.PLAYERS:
+        height = int(player['height'][0:2])
+        guardians = player['guardians'].split(" and ")
+        experience = True if player['experience'] == 'YES' else False
+        player_list.append({'name': player['name'], 'guardians': guardians, 'experience': experience,
+                            'height': height})
     show_menu()
