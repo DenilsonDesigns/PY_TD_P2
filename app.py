@@ -1,18 +1,49 @@
 import constants
 
-# print("Player name:", player['name'])
 # clean the data
 player_list = []
 for player in constants.PLAYERS:
     height = int(player['height'][0:2])
-    player_list.append({'name': player['name'], 'guardians': player['guardians'], 'experience': player['experience'],
+    guardians = player['guardians'].split(" and ")
+    experience = True if player['experience'] == 'YES' else False
+    player_list.append({'name': player['name'], 'guardians': guardians, 'experience': experience,
                         'height': height})
-
-print(player_list)
 
 
 def make_teams(player_pool):
-    pass
+    # Count the number of experienced players
+    experienced = 0
+    vet_pool = []
+    rookie_pool = []
+    team_1 = []
+    team_2 = []
+    team_3 = []
+    for player_in_pool in player_pool:
+        if player_in_pool['experience']:
+            experienced += 1
+            vet_pool.append(player_in_pool)
+        else:
+            rookie_pool.append(player_in_pool)
+
+    vets_per_team = int(experienced/3)
+    print(vets_per_team)
+    while len(vet_pool) > 0:
+        team_1.extend(vet_pool[0:vets_per_team])
+        del vet_pool[0:vets_per_team]
+        team_2.extend(vet_pool[0:vets_per_team])
+        del vet_pool[0:vets_per_team]
+        team_3.extend(vet_pool[0:vets_per_team])
+        del vet_pool[0:vets_per_team]
+
+    while len(rookie_pool) > 0:
+        team_1.extend(rookie_pool[0:1])
+        del rookie_pool[0:1]
+        team_2.extend(rookie_pool[0:1])
+        del rookie_pool[0:1]
+        team_3.extend(rookie_pool[0:1])
+        del rookie_pool[0:1]
+
+    return team_1, team_2, team_3
 
 
 def show_menu():
@@ -27,23 +58,29 @@ def show_menu():
             show = False
         elif choice == "1":
             team_choice = show_teams()
-            if team_choice == "1":
-                print("You chose Panthers!")
-                show = False
-            elif team_choice == "2":
-                print("You chose Bandits!")
-                show = False
-            elif team_choice == "3":
-                print("You chose Warriors!")
-                show = False
 
 
 def show_teams():
     print("1) Panthers")
     print("2) Bandits")
     print("3) Warriors")
-    return input("Enter an option >")
+    option = int(input("Enter an option >"))
+    print_team(option)
+
+
+def print_team(team_number):
+    teams_array = make_teams(player_list)
+    team_list = ['Panthers', 'Bandits', 'Warriors']
+    player_string = ""
+    for player_here in teams_array[team_number-1]:
+        player_string += player_here['name']+", "
+    print("Team: {} Stats\n".format(team_list[team_number-1]))
+    print("--------------------")
+    print("Total players: {}\n".format(len(teams_array[team_number-1])))
+    print("Player list:")
+    print(player_string)
 
 
 if __name__ == '__main__':
     show_menu()
+
