@@ -38,6 +38,9 @@ def make_teams(player_pool):
 
 
 def get_more_stats(team_list):
+    cblue = '\33[34m'
+    cyellow = '\33[33m'
+    cend = '\33[0m'
     vet_total = 0
     rookie_total = 0
     av_height = 0
@@ -51,29 +54,33 @@ def get_more_stats(team_list):
         av_height += stat_player['height']
         for guardian in stat_player['guardians']:
             guardian_list += guardian + ", "
-    print("Advanced Stats")
-    print('- ' * 10)
+    print(cyellow + "Advanced Stats" + cend)
+    print(cblue + '- ' * 10 + cend)
     print("Number of vets on team: {}".format(vet_total))
     print("Number of rooks on team: {}".format(rookie_total))
     print("Average height of team: {}".format(int(av_height / len(team_list))))
     print("List of guardians for the team: {}\n".format(guardian_list))
+    print(cblue + '-' * 20 + cend)
 
 
 def show_menu():
-    print("BASKETBALL TEAM STATS TOOL\n")
-    print("-" * 20)
+    cblue = '\33[34m'
+    cyellow = '\33[33m'
+    cend = '\33[0m'
+    print(cyellow + "BASKETBALL TEAM STATS TOOL" + cend)
+    print(cblue + "-" * 20 + cend)
     show = True
     while show:
         print("Here are your choices:\n")
-        print("1) Display Team Stats\n")
-        print("2) Quit\n\n")
+        print("1) Display Team Stats")
+        print("2) Quit\n")
         choice = input("Enter an option >")
         if choice == "2":
             print("Exiting. Thanks for playing")
             show = False
         elif choice == "1":
-            print("Choose a team:")
-            team_choice = show_teams()
+            print(cyellow + "Choose a team:" + cend)
+            show_teams()
         else:
             print("Please choose option 1 or 2")
 
@@ -100,17 +107,20 @@ def show_teams():
 
 
 def print_team(team_number):
+    cblue = '\33[34m'
+    cyellow = '\33[33m'
+    cend = '\33[0m'
     teams_array = make_teams(player_list)
     team_list = ['Panthers', 'Bandits', 'Warriors']
     player_string = ""
     for player_here in teams_array[team_number - 1]:
         player_string += player_here['name'] + ", "
-    print("Team: {} Stats\n".format(team_list[team_number - 1]))
-    print("-" * 20)
+    print(cyellow + "\nTeam {} Stats".format(team_list[team_number - 1]) + cend)
+    print(cblue + "-" * 20 + cend)
     print("Total players: {}".format(len(teams_array[team_number - 1])))
     print("Player list:")
     print(player_string)
-    print("-" * 20)
+    print(cblue + "-" * 20 + cend)
     get_more_stats(teams_array[team_number - 1])
 
 
