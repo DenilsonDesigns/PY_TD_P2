@@ -56,7 +56,7 @@ def get_more_stats(team_list):
     print("Number of vets on team: {}".format(vet_total))
     print("Number of rooks on team: {}".format(rookie_total))
     print("Average height of team: {}".format(int(av_height / len(team_list))))
-    print("List of guardians for the team: {}".format(guardian_list))
+    print("List of guardians for the team: {}\n".format(guardian_list))
 
 
 def show_menu():
@@ -75,15 +75,28 @@ def show_menu():
             print("Choose a team:")
             team_choice = show_teams()
         else:
-            print("Exiting. Thanks for playing")
+            print("Please choose option 1 or 2")
 
 
 def show_teams():
-    print("1) Panthers")
-    print("2) Bandits")
-    print("3) Warriors")
-    option = int(input("Enter an option >"))
-    print_team(option)
+    done = False
+    while not done:
+        print("1) Panthers")
+        print("2) Bandits")
+        print("3) Warriors")
+        try:
+            choice = input("Enter an option >")
+            choice = int(choice)
+        except ValueError:
+            print("Please choose an available team")
+            continue
+        if int(choice) > 3 or int(choice) < 1 or not int(choice):
+            print("Please choose an available team")
+            continue
+        option = int(choice)
+        print("Please choose one of the available teams")
+        print_team(option)
+        done = True
 
 
 def print_team(team_number):
